@@ -3,8 +3,8 @@ import calendar
 
 
 def get_birthdays_per_week(users):
-    b = [day for day in calendar.day_name]
-    birthdays = {k: [] for k in b}
+    weekday_names_list = [day for day in calendar.day_name]
+    birthdays = {weekday_names: [] for weekday_names in weekday_names_list}
     current_day = date.today()
     filtered_birthdays = dict()
     number_of_days = 365 if date.today().year % 4 else 366
@@ -15,8 +15,8 @@ def get_birthdays_per_week(users):
         to_next_year_days = 0
         if delta_days < 0:
             to_next_year_days = number_of_days + delta_days
-            current_year_birthday = datetime(current_day.year+1, user["birthday"].month, user["birthday"].day).date()
-        if (delta_days >= 0) and (delta_days <= 6) or (to_next_year_days>=0) and (to_next_year_days<=6):
+            current_year_birthday = datetime(current_day.year + 1, user["birthday"].month, user["birthday"].day).date()
+        if ((delta_days >= 0) and (delta_days <= 6)) or ((to_next_year_days >= 0) and (to_next_year_days <= 6)):
             weekday_num = current_year_birthday.weekday()
             if weekday_num < 5:
                 weekday_name = current_year_birthday.strftime('%A')
