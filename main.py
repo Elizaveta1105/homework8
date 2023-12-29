@@ -7,7 +7,7 @@ def get_birthdays_per_week(users):
     birthdays = {k: [] for k in b}
     current_day = date.today()
     filtered_birthdays = dict()
-    number_of_days = 365 if date.today().year % 4 > 0 else 366
+    number_of_days = 365 if date.today().year % 4 else 366
 
     for user in users:
         current_year_birthday = datetime(current_day.year, user["birthday"].month, user["birthday"].day).date()
