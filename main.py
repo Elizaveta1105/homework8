@@ -1,22 +1,44 @@
+"""
+This module provides functions for working with date and time.
+"""
 from datetime import date, datetime
 import calendar
 
 
-def get_birthdays_per_week(users):
-    weekday_names_list = [day for day in calendar.day_name]
+def get_birthdays_per_week(users_list: list) -> dict:
+    """
+    Determines the weekdays and names, when an employee has a birthday.
+
+    Args:
+        users_list(list): list of objects with name and birthday of a person.
+
+    Returns:
+        dict: {birthday_weekday: [names of employees]}
+
+    """
+
+    weekday_names_list = list(calendar.day_name)
     birthdays = {weekday_names: [] for weekday_names in weekday_names_list}
     current_day = date.today()
-    filtered_birthdays = dict()
+    filtered_birthdays = {}
     number_of_days = 365 if date.today().year % 4 else 366
 
-    for user in users:
-        current_year_birthday = datetime(current_day.year, user["birthday"].month, user["birthday"].day).date()
+    for user in users_list:
+        current_year_birthday = datetime(
+            current_day.year,
+            user["birthday"].month,
+            user["birthday"].day
+        ).date()
         delta_days = int(str((current_year_birthday - current_day).days))
         to_next_year_days = 0
         if delta_days < 0:
             to_next_year_days = number_of_days + delta_days
-            current_year_birthday = datetime(current_day.year + 1, user["birthday"].month, user["birthday"].day).date()
-        if ((delta_days >= 0) and (delta_days <= 6)) or ((to_next_year_days >= 0) and (to_next_year_days <= 6)):
+            current_year_birthday = datetime(
+                current_day.year + 1,
+                user["birthday"].month,
+                user["birthday"].day
+            ).date()
+        if 0 <= delta_days <= 6 or to_next_year_days <= 6:
             weekday_num = current_year_birthday.weekday()
             if weekday_num < 5:
                 weekday_name = current_year_birthday.strftime('%A')
